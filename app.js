@@ -17,7 +17,9 @@ app.route('*')
   });
 
 if (cluster.isMaster && config.get('production?')) {
-  for (var i = 0; i < os.cpus().length; i++) { cluster.fork(); }
+  if ('gulp' !== process.title) {
+    for (var i = 0; i < os.cpus().length; i++) { cluster.fork(); }
+  }
 } else {
   if (null === module.parent) app.listen(config.get('port'));
 }
