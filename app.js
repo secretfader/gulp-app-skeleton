@@ -5,7 +5,15 @@ var path    = require('path')
 ,   config  = require('config')
 ,   app     = module.exports = express();
 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.set('root', path.join(__dirname, 'dist'));
+
+app.use(require('morgan')('combined'));
+app.use(express.static(app.get('root')));
+
+app.route('*')
+  .get(function (req, res) {
+    res.sendFile(path.join(app.get('root'), 'index.html'));
+  });
 
 if (cluster.isMaster && config.get('production?')) {
   for (var i = 0; i < os.cpus().length; i++) { cluster.fork(); }
