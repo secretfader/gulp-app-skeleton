@@ -1,0 +1,10 @@
+{
+  "name": "config",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "dotaccess": "^1.0.5",
+    "dotenv": "^0.4.0",
+    "lodash": "^2.4.1"
+  }
+}
