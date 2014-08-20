@@ -1,19 +1,20 @@
 /**
  * Dependencies
  */
-var _       = require('lodash')
-,   config  = require('config')
-,   gulp    = require('gulp')
-,   jade    = require('gulp-jade')
-,   stylus  = require('gulp-stylus')
-,   rev     = require('gulp-rev')
-,   rimraf  = require('gulp-rimraf')
-,   concat  = require('gulp-concat')
-,   replace = require('gulp-rev-replace')
-,   lr      = require('gulp-livereload')
-,   stream  = require('event-stream')
-,   cleanup = require('./tasks/cleanup')
-,   bower   = require('main-bower-files')();
+var config   = require('config')
+,   gulp     = require('gulp')
+,   jade     = require('gulp-jade')
+,   stylus   = require('gulp-stylus')
+,   rev      = require('gulp-rev')
+,   rimraf   = require('gulp-rimraf')
+,   concat   = require('gulp-concat')
+,   replace  = require('gulp-rev-replace')
+,   annotate = require('gulp-ng-annotate')
+,   lr       = require('gulp-livereload')
+,   stream   = require('event-stream')
+,   queue    = require('streamqueue')
+,   cleanup  = require('./tasks/cleanup')
+,   bower    = require('main-bower-files')();
 
 /**
  * Setup Environment
@@ -29,10 +30,16 @@ gulp.task('clean', function () {
 });
 
 gulp.task('js', function () {
-  return gulp.src(_.union(bower, [
+  var lib, app, q;
+
+  lib = gulp.src(bower);
+  app = gulp.src([
     'src/js/app.js',
     'src/js/controllers/*.js'
-  ]))
+  ])
+  .pipe(annotate());
+
+  return queue({ objectMode: true }, lib, app)
     .pipe(concat('app.js'))
     .pipe(gulp.dest('dist'));
 });

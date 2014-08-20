@@ -1,5 +1,3 @@
-app.controller('AppCtrl', [
-  '$scope',
-  function ($scope) {
-  }
-]);
+app.controller('AppCtrl', function ($scope) {
+  $scope.message = 'Hello, Angular';
+});
