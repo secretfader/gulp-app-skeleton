@@ -1,18 +1,21 @@
 /**
  * Dependencies
  */
-var config   = require('config')
+var _        = require('lodash')
+,   config   = require('config')
 ,   gulp     = require('gulp')
 ,   jade     = require('gulp-jade')
 ,   stylus   = require('gulp-stylus')
+,   csso     = require('gulp-csso')
 ,   rev      = require('gulp-rev')
 ,   rimraf   = require('gulp-rimraf')
 ,   concat   = require('gulp-concat')
 ,   replace  = require('gulp-rev-replace')
 ,   annotate = require('gulp-ng-annotate')
+,   uglify   = require('gulp-uglify')
+,   queue    = require('streamqueue')
 ,   lr       = require('gulp-livereload')
 ,   stream   = require('event-stream')
-,   queue    = require('streamqueue')
 ,   cleanup  = require('./tasks/cleanup')
 ,   bower    = require('main-bower-files')();
 
@@ -30,7 +33,7 @@ gulp.task('clean', function () {
 });
 
 gulp.task('js', function () {
-  var lib, app, q;
+  var lib, app;
 
   lib = gulp.src(bower);
   app = gulp.src([
@@ -52,7 +55,12 @@ gulp.task('css', function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('assets', function () {
+gulp.task('images', function () {
+  return gulp.src('src/img/*')
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('fonts', function () {
   return gulp.src('src/fonts/*')
     .pipe(gulp.dest('dist'));
 });
@@ -63,13 +71,26 @@ gulp.task('templates', function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('rev', function () {
-  var assets = gulp.src(['dist/**/*', '!dist/**/*.html'])
+gulp.task('build', function () {
+  var assets = gulp.src([
+    'dist/**/*',
+    '!dist/**/*.html',
+    '!dist/**/*.css',
+    '!dist/**/*.js'
+  ])
     .pipe(rev());
+
+  var css = gulp.src('dist/**/*.css')
+    .pipe(rev())
+    .pipe(csso());
+
+  var js = gulp.src('dist/**/*.js')
+    .pipe(rev())
+    .pipe(uglify());
 
   var templates = gulp.src('dist/**/*.html');
 
-  return stream.merge(assets, templates)
+  return stream.merge(assets, css, js, templates)
     .pipe(replace())
     .pipe(gulp.dest('dist'))
     .pipe(cleanup());
@@ -81,6 +102,8 @@ gulp.task('watch', function () {
   gulp.watch('src/js/**/*.js', ['js']);
   gulp.watch('src/css/**/*.styl', ['css']);
   gulp.watch('src/**/*.jade', ['templates']);
+  gulp.watch('src/img/*', ['images']);
+  gulp.watch('src/fonts/*', ['fonts']);
 
   gulp.watch('dist/**/*').on('change', lr.changed);
 
@@ -88,5 +111,5 @@ gulp.task('watch', function () {
 });
 
 gulp.task('default', [
-  'watch', 'js', 'css', 'assets', 'templates'
+  'watch', 'js', 'css', 'images', 'fonts', 'templates'
 ]);
