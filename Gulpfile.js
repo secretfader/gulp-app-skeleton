@@ -1,8 +1,7 @@
 /**
  * Dependencies
  */
-var _        = require('lodash')
-,   config   = require('config')
+var config   = require('config')
 ,   gulp     = require('gulp')
 ,   jade     = require('gulp-jade')
 ,   stylus   = require('gulp-stylus')
