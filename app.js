@@ -6,7 +6,7 @@ var path    = require('path')
 ,   app     = module.exports = express();
 
 app.set('root', path.join(__dirname, 'dist'));
-app.set('logging', !config.get('development?'));
+app.set('logging', !config.get('test?'));
 
 if (app.get('logging')) app.use(require('morgan')('combined'));
 app.use(express.static(app.get('root')));
