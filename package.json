@@ -8,7 +8,7 @@
   },
   "main": "app.js",
   "scripts": {
-    "postinstall": "npm link vendor/pkg/config && bower install"
+    "postinstall": "npm install vendor/pkg/config && bower install"
   },
   "author": "Nicholas Young <nicholas@nicholaswyoung.com>",
   "license": "ISC",
