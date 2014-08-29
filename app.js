@@ -24,6 +24,6 @@ if (cluster.isMaster && config.get('production?')) {
   if (null === module.parent) app.listen(config.get('port'));
 }
 
-process.stdout.write(
+if (cluster.isMaster) process.stdout.write(
   'gulp-app-skeleton listening on port ' + config.get('port') + '...\n'
 );
