@@ -1,4 +1,9 @@
 /**
+ * Setup Environment
+ */
+process.title = 'gulp';
+
+/**
  * Dependencies
  */
 var config  = require('config')
@@ -8,11 +13,6 @@ var config  = require('config')
 ,   cleanup = require('./tasks/cleanup')
 ,   bower   = require('main-bower-files')()
 ,   $       = require('gulp-load-plugins')();
-
-/**
- * Setup Environment
- */
-process.title = 'gulp';
 
 /**
  * Tasks
