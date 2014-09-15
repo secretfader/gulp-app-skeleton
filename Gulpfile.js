@@ -61,7 +61,7 @@ gulp.task('templates', function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('build', function () {
+gulp.task('rev', ['js', 'css', 'images', 'fonts', 'templates'], function () {
   var assets = gulp.src([
     'dist/**/*',
     '!dist/**/*.html',
@@ -83,6 +83,8 @@ gulp.task('build', function () {
   return stream.merge(assets, css, js, templates)
     .pipe($.revReplace())
     .pipe(gulp.dest('dist'))
+    .pipe($.rev.manifest())
+    .pipe(gulp.dest('dist'))
     .pipe(cleanup());
 });
 
@@ -99,6 +101,16 @@ gulp.task('watch', function () {
 
   require('./app').listen(config.get('port'));
 });
+
+gulp.task('build', [
+  'clean',
+  'js',
+  'css',
+  'images',
+  'fonts',
+  'templates',
+  'rev'
+]);
 
 gulp.task('default', [
   'watch', 'js', 'css', 'images', 'fonts', 'templates'
