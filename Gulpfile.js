@@ -103,7 +103,6 @@ gulp.task('watch', function () {
 });
 
 gulp.task('build', [
-  'clean',
   'js',
   'css',
   'images',
