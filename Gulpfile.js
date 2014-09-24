@@ -83,9 +83,9 @@ gulp.task('rev', ['js', 'css', 'images', 'fonts', 'templates'], function () {
   return stream.merge(assets, css, js, templates)
     .pipe($.revReplace())
     .pipe(gulp.dest('dist'))
+    .pipe(cleanup())
     .pipe($.rev.manifest())
-    .pipe(gulp.dest('dist'))
-    .pipe(cleanup());
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', function () {
