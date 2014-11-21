@@ -1,28 +1,14 @@
-var path     = require('path')
-,   express  = require('express')
-,   cluster  = require('cluster')
-,   os       = require('os')
-,   nunjucks = require('nunjucks')
-,   config   = require('config')
-,   app      = module.exports = express();
+var path    = require('path')
+,   express = require('express')
+,   cluster = require('cluster')
+,   os      = require('os')
+,   config  = require('config')
+,   app     = module.exports = express();
 
 /**
  * Configuration
  */
 app.set('root', path.join(__dirname, 'dist'));
-app.set('views', path.join(__dirname, 'views'));
-
-nunjucks.configure(app.get('views'), {
-  tags: {
-    blockStart: '<%',
-    blockEnd: '%>',
-    variableStart: '<$',
-    variableEnd: '$>',
-    commentStart: '<#',
-    commentEnd: '#>'
-  },
-  express: app
-});
 
 /**
  * Middleware
@@ -30,7 +16,7 @@ nunjucks.configure(app.get('views'), {
 if (config.get('logging')) app.use(require('morgan')('combined'));
 app.use(express.static(app.get('root')));
 app.use(function (req, res) {
-  res.render('index.html');
+  res.sendFile(path.join(app.get('root'), 'index.html'));
 });
 
 /**
