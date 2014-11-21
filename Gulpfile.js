@@ -61,7 +61,7 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('templates', function () {
-  return gulp.src('src/**/*.html')
+  return gulp.src(['views/**/*.html', '!views/index.html'])
     .pipe($.nunjucks())
     .pipe(gulp.dest('dist'));
 });
