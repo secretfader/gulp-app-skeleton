@@ -2,6 +2,9 @@
 
 After many trials and refactors, this is the skeleton that we use for all front-end application development at [Original Machine](http://originalmachine.com).
 
+It includes everything you need to begin an application. [Angular](https://angularjs.org) as the framework, [Stylus](http://learnboost.github.io/stylus) for expressive CSS,
+and [Nunjucks](http://mozilla.github.io/nunjucks) templates.
+
 ## Getting Started
 
 First, make sure you have [Gulp](http://gulpjs.com) and [Bower](http://bower.io)
