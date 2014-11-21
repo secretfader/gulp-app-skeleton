@@ -16,6 +16,11 @@ var config  = require('config')
 ,   $       = require('gulp-load-plugins')();
 
 /**
+ * Setup
+ */
+$.nunjucksRender.nunjucks.configure(['views']);
+
+/**
  * Tasks
  */
 gulp.task('test', function () {
@@ -62,7 +67,7 @@ gulp.task('fonts', function () {
 
 gulp.task('templates', function () {
   return gulp.src(['views/**/*.html', '!views/index.html'])
-    .pipe($.nunjucks())
+    .pipe($.nunjucksRender())
     .pipe(gulp.dest('dist'));
 });
 
