@@ -32,8 +32,8 @@ gulp.task('js', function () {
 
   lib = gulp.src(bower);
   app = gulp.src([
-    'src/js/app.js',
-    'src/js/controllers/*.js'
+    'assets/js/app.js',
+    'assets/js/controllers/*.js'
   ])
   .pipe($.ngAnnotate());
 
@@ -43,20 +43,20 @@ gulp.task('js', function () {
 });
 
 gulp.task('css', function () {
-  return gulp.src('src/css/app.styl')
+  return gulp.src('assets/css/app.styl')
     .pipe($.stylus({
-      include: ['src/css', 'vendor/css']
+      include: ['assets/css', 'vendor/css']
     }))
     .pipe(gulp.dest('dist'));
 });
 
 gulp.task('images', function () {
-  return gulp.src('src/img/*')
+  return gulp.src('assets/img/*')
     .pipe(gulp.dest('dist'));
 });
 
 gulp.task('fonts', function () {
-  return gulp.src('src/fonts/*')
+  return gulp.src('assets/fonts/*')
     .pipe(gulp.dest('dist'));
 });
 
@@ -96,11 +96,11 @@ gulp.task('rev', ['js', 'css', 'images', 'fonts', 'templates'], function () {
 gulp.task('watch', function () {
   $.livereload.listen();
 
-  gulp.watch('src/js/**/*.js', ['js']);
-  gulp.watch('src/css/**/*.styl', ['css']);
-  gulp.watch('src/**/*.html', ['templates']);
-  gulp.watch('src/img/*', ['images']);
-  gulp.watch('src/fonts/*', ['fonts']);
+  gulp.watch('assets/js/**/*.js', ['js']);
+  gulp.watch('assets/css/**/*.styl', ['css']);
+  gulp.watch('assets/img/*', ['images']);
+  gulp.watch('assets/fonts/*', ['fonts']);
+  gulp.watch('views/**/*.html', ['templates']);
 
   gulp.watch('dist/**/*').on('change', $.livereload.changed);
 
