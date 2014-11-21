@@ -1,22 +1,42 @@
-var path    = require('path')
-,   express = require('express')
-,   cluster = require('cluster')
-,   os      = require('os')
-,   config  = require('config')
-,   app     = module.exports = express();
+var path     = require('path')
+,   express  = require('express')
+,   cluster  = require('cluster')
+,   os       = require('os')
+,   nunjucks = require('nunjucks')
+,   config   = require('config')
+,   app      = module.exports = express();
 
+/**
+ * Configuration
+ */
 app.set('root', path.join(__dirname, 'dist'));
-app.set('logging', !config.get('test?'));
+app.set('views', path.join(__dirname, 'views'));
 
-if (app.get('logging')) app.use(require('morgan')('combined'));
+nunjucks.configure(app.get('views'), {
+  tags: {
+    blockStart: '<%',
+    blockEnd: '%>',
+    variableStart: '<$',
+    variableEnd: '$>',
+    commentStart: '<#',
+    commentEnd: '#>'
+  },
+  express: app
+});
+
+/**
+ * Middleware
+ */
+if (config.get('logging')) app.use(require('morgan')('combined'));
 app.use(express.static(app.get('root')));
+app.use(function (req, res) {
+  res.render('index.html');
+});
 
-app.route('*')
-  .get(function (req, res) {
-    res.sendFile(path.join(app.get('root'), 'index.html'));
-  });
-
-if (cluster.isMaster && config.get('production?')) {
+/**
+ * Boot HTTP Server
+ */
+if (cluster.isMaster && 'production' === config.util.getEnv('NODE_ENV')) {
   if ('gulp' !== process.title) {
     for (var i = 0; i < os.cpus().length; i++) { cluster.fork(); }
   }

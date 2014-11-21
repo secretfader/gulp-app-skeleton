@@ -10,6 +10,7 @@ var config  = require('config')
 ,   gulp    = require('gulp')
 ,   queue   = require('streamqueue')
 ,   stream  = require('event-stream')
+,   del     = require('del')
 ,   cleanup = require('./tasks/cleanup')
 ,   bower   = require('main-bower-files')()
 ,   $       = require('gulp-load-plugins')();
@@ -17,9 +18,13 @@ var config  = require('config')
 /**
  * Tasks
  */
-gulp.task('clean', function () {
-  return gulp.src('dist/**/*', { read: false })
-    .pipe($.rimraf());
+gulp.task('test', function () {
+  return gulp.src('test/*.test.js')
+    .pipe($.mocha());
+});
+
+gulp.task('clean', function (done) {
+  del('dist/**/*', done);
 });
 
 gulp.task('js', function () {
@@ -56,8 +61,8 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('templates', function () {
-  return gulp.src('src/**/*.jade')
-    .pipe($.jade({ doctype: 'html' }))
+  return gulp.src('src/**/*.html')
+    .pipe($.nunjucks())
     .pipe(gulp.dest('dist'));
 });
 
@@ -93,7 +98,7 @@ gulp.task('watch', function () {
 
   gulp.watch('src/js/**/*.js', ['js']);
   gulp.watch('src/css/**/*.styl', ['css']);
-  gulp.watch('src/**/*.jade', ['templates']);
+  gulp.watch('src/**/*.html', ['templates']);
   gulp.watch('src/img/*', ['images']);
   gulp.watch('src/fonts/*', ['fonts']);
 
