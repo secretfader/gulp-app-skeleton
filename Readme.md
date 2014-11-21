@@ -2,6 +2,27 @@
 
 After many trials and refactors, this is the skeleton that we use for all front-end application development at [Original Machine](http://originalmachine.com).
 
+## Getting Started
+
+First, make sure you have [Gulp](http://gulpjs.com) and [Bower](http://bower.io)
+installed and configured. Next, run:
+
+```
+git clone git://github.com/originalmachine/gulp-app-skeleton.git {{YOUR_PROJECT_NAME}}
+cd {{YOUR_PROJECT_NAME}}
+npm install
+```
+
+Once that's done, you can run ```gulp``` to build the required front-end files.
+Not only will this task setup your application, but it also boots the HTTP and
+LiveReload servers, so you're ready to rock.
+
+## Questions?
+
+Get in touch via email: dev@originalmachine.com. If you have suggestions, feel
+free to send them as a pull request. We want to keep this up-to-date and in-sync
+with best practices.
+
 ## License
 
 Copyright (C) Original Machine LLC.
