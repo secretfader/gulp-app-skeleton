@@ -1,5 +1,7 @@
 # Gulp App Skeleton
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nicholaswyoung/gulp-app-skeleton.svg)](https://greenkeeper.io/)
+
 After many trials and refactors, this is the skeleton that we use for all front-end application development at [Original Machine](http://originalmachine.com).
 
 It includes everything you need to begin an application. [Angular](https://angularjs.org) as the framework, [Stylus](http://learnboost.github.io/stylus) for expressive CSS,
